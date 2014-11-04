@@ -121,6 +121,14 @@ func (d *driver) createNetwork(container *libcontainer.Config, c *execdriver.Com
 		})
 	}
 
+	if c.Network.NetNS != "" {
+		nspath := filepath.Join("/var/run/netns", c.Network.NetNS)
+		container.Networks = append(container.Networks, &libcontainer.Network{
+			Type:   "netns",
+			NsPath: nspath,
+		})
+	}
+
 	return nil
 }
 

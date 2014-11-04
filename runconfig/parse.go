@@ -380,6 +380,10 @@ func parseNetMode(netMode string) (NetworkMode, error) {
 	parts := strings.Split(netMode, ":")
 	switch mode := parts[0]; mode {
 	case "bridge", "none", "host":
+	case "netns":
+		if len(parts) < 1 || parts[1] == "" {
+			return "", fmt.Errorf("invalid netns format netns:<name>")
+		}
 	case "container":
 		if len(parts) < 2 || parts[1] == "" {
 			return "", fmt.Errorf("invalid container format container:<name|id>")

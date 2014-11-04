@@ -225,6 +225,8 @@ func populateCommand(c *Container, env []string) error {
 			return err
 		}
 		en.ContainerID = nc.ID
+	case "netns":
+		en.NetNS = c.getNetNS()
 	default:
 		return fmt.Errorf("invalid network mode: %s", c.hostConfig.NetworkMode)
 	}
@@ -1239,6 +1241,16 @@ func (container *Container) GetMountLabel() string {
 		return ""
 	}
 	return container.MountLabel
+}
+
+func (container *Container) getNetNs() (string, error) {
+	parts := strings.SplitN(string(container.hostConfig.NetworkMode), ":", 2)
+	switch parts[0] {
+	case "netns":
+		return parts[1], nil
+	default:
+		return nil, fmt.Errorf("network mode not set to netns")
+	}
 }
 
 func (container *Container) getNetworkedContainer() (*Container, error) {

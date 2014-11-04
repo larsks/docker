@@ -104,6 +104,7 @@ docker-create - Create a new container
                                'bridge': creates a new network stack for the container on the docker bridge
                                'none': no networking for this container
                                'container:<name|id>': reuses another container network stack
+                               'netns:<name>': use network stack from specified network namespace
                                'host': use the host network stack inside the container.  Note: the host mode gives the container full access to local system services such as D-bus and is therefore considered insecure.
 
 **-P**, **--publish-all**=*true*|*false*
